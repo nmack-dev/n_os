@@ -11,7 +11,7 @@ typedef uint32_t size_t; // not supper portable lol
 extern char __bss[], __bss_end[], __stack_top[];
 
 sbiret sbi_call
-    ( 
+    (
     long arg0,
     long arg1,
     long arg2,
@@ -52,26 +52,9 @@ void putchar
 sbi_call(ch, 0, 0, 0, 0, 0, 0, 1 );
 }
 
-void* memset
-    ( 
-    void* buf, 
-    char c, 
-    size_t n 
-    )
-{
-uint8_t* p = (uint8_t *)buf;
-
-while( n-- > 0 )
-    {
-    *p++ = c;
-    }
-
-return( buf );
-}
-
 void kernel_main
     (
-     void 
+     void
     )
 {
 memset(__bss, 0, (size_t)__bss_end - (size_t)__bss );
@@ -88,9 +71,9 @@ FOR_EVER
 __attribute__((section(".text.boot")))
 __attribute__((naked))  // tells clang NOT to do any compiler magic after
 void boot
-    ( 
-    void 
-    ) 
+    (
+    void
+    )
 {
 __asm__ __volatile__
     (

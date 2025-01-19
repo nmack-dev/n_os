@@ -3,6 +3,26 @@
 
 void putchar(char ch);
 
+void* memset
+    (
+    void* buf,
+    char c,
+    size_t n
+    )
+{
+assert( NULL != buf );
+
+uint8_t* bp = (uint8_t*)buf;
+
+for( size_t i = 0; i < n; ++i )
+    {
+    *bp = c;
+    ++bp;
+    }
+
+return( buf );
+}
+
 void printf
     (
     const char* fmt,
