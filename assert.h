@@ -18,3 +18,6 @@
 
 #define assert_ptr( ptr )\
     assert_w_msg( ( NULL != ptr ), "null pointer" )
+
+#define panic( fmt, ... )\
+    assert_w_msg( 0, fmt, __VA_ARGS__ )
