@@ -7,3 +7,6 @@
         }\
     }\
     while( 0 )
+
+#define assert_ptr( ptr )\
+    assert( NULL != ptr )

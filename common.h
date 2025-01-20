@@ -35,18 +35,18 @@ void* memcpy
     size_t n
     );
 
-// TODO also might want to do strncpy...
-char* strcpy
+char* strncpy
     (
     char* dst,
-    const char* src
+    const char* src,
+    size_t n
     );
 
-// TODO same here
-int strcmp
+int strncmp
     (
     const char* s1,
-    const char* s2
+    const char* s2,
+    size_t n
     );
 
 void printf
