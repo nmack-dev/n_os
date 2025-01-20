@@ -76,6 +76,9 @@ int strcmp
     size_t n
     )
 {
+assert_ptr( s1 );
+assert_ptr( s2 );
+
 for( size_t i = 0; i < n; ++i )
     {
     if( *s1 != *s2 )

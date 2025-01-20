@@ -1,12 +1,20 @@
-#define assert( condition )\
+#pragma once
+
+#include "common.h"
+
+#define assert_w_msg( condition, fmt, ... )\
     do\
     {\
     if( !( condition ) )\
         {\
-        __builtin_trap();\
+        printf("ASSERT: %s:%d: " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__ );\
+        while( 1 ){}\
         }\
     }\
     while( 0 )
 
+#define assert( condition )\
+    assert_w_msg( condition, "generic error - shutting down kernel" );
+
 #define assert_ptr( ptr )\
-    assert( NULL != ptr )
+    assert_w_msg( ( NULL != ptr ), "null pointer" )
