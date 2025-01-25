@@ -12,3 +12,8 @@ clone & run `./run.sh` in WSL
 - memset, strncmp, strncpy
 - better asserting
 - trap handler for kernel level errors - e.g. cpu black magic
+
+## 01/25/25
+- add a page allocator, still need free functionality
+- add basic process support and ability to context switch
+    - surprisingly pretty easy to do
