@@ -1,15 +1,26 @@
+/*
+Includes
+*/
 #include "kernel.h"
 #include "common.h"
 #include "assert.h"
 
-typedef unsigned char uint8_t;
-typedef unsigned int uint32_t;
-typedef uint32_t size_t; // not supper portable lol
-
+/*
+Macros
+*/
 #define FOR_EVER for(;;)
 
-extern char __bss[], __bss_end[], __stack_top[];
+#define TO_PAGES( n ) n * PAGE_SIZE
 
+/*
+Externs
+*/
+extern char __bss[], __bss_end[], __stack_top[];
+extern char __free_ram[], __free_ram_end[];
+
+/*
+Functions
+*/
 sbiret sbi_call
     (
     long arg0,
@@ -149,18 +160,37 @@ uint32_t user_pc = READ_CSR( sepc );
 panic( "unexpected trap scause=%x, stval=%x, sepc=%x", scause, stval, user_pc );
 }
 
+paddr_t alloc_pages
+    (
+    uint32_t n
+    )
+{
+// TODO probably should implement free at some point
+// would probably want to globalize next_paddr and add concurrency safety??
+
+static paddr_t next_paddr = (paddr_t)__free_ram;
+paddr_t paddr = next_paddr;
+next_paddr += TO_PAGES( n );
+
+if( next_paddr > (paddr_t)__free_ram_end )
+    {
+    panic( "Out of memory" );
+    }
+
+memset( (void*)paddr, 0, TO_PAGES( n ) );
+
+return( paddr );
+}
+
+/*
+Main & Boot - should be last
+*/
 void kernel_main
     (
      void
     )
 {
 memset(__bss, 0, (size_t)__bss_end - (size_t)__bss );
-
-printf( "\n\nHello %s\n", "World!" );
-printf( "1 + 2 = %d, %x\n", 1 + 2, 0x1234abcd );
-
-WRITE_CSR( stvec, (uint32_t)kernel_entry );
-__asm__ __volatile__( "unimp" );
 
 FOR_EVER
     {

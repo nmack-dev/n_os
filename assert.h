@@ -2,6 +2,14 @@
 
 #include "common.h"
 
+#define panic( fmt, ... )\
+    do\
+    {\
+    printf("PANIC: %s:%d: " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__ );\
+    while( 1 ){}\
+    }\
+    while( 0 )
+
 #define assert_w_msg( condition, fmt, ... )\
     do\
     {\
@@ -18,6 +26,3 @@
 
 #define assert_ptr( ptr )\
     assert_w_msg( ( NULL != ptr ), "null pointer" )
-
-#define panic( fmt, ... )\
-    assert_w_msg( 0, fmt, __VA_ARGS__ )
