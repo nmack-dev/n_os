@@ -1,7 +1,23 @@
 #pragma once
 
+/*
+Includes
+*/
 #include "common.h"
 
+/*
+Defs
+*/
+#define PROCS_MAX 8
+
+#define PROC_UNUSED 0
+#define PROC_RUNNABLE 1
+
+#define STACK_SIZE 8192
+
+/*
+Types
+*/
 typedef struct
     {
     long error;
@@ -43,6 +59,17 @@ typedef struct trap_frame
     uint32_t sp;
     } trap_frame __attribute__( (packed) );
 
+typedef struct
+    {
+    int pid;                      /* process id */
+    int state;                    /* state - PROC_UNUSED or PROC_RUNNABLE */
+    vaddr_t sp;                   /* stack pointer addr */
+    uint8_t stack[ STACK_SIZE ];  /* stack */
+    } process;
+
+/*
+Macros
+*/
 #define READ_CSR( reg )\
     (\
         {\
